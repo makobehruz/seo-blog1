@@ -6,7 +6,9 @@ from .models import Product
 
 
 def home(request):
-    return render(request,'index.html')
+    products = Product.objects.all()
+    ctx = {'products': products}
+    return render(request,'index.html', ctx)
 
 def product_create(request):
     if request.method == 'POST':
@@ -30,7 +32,7 @@ def product_create(request):
                 category=category,
                 brand=brand,
             )
-            return redirect('products:list')
+            return redirect('home')
     color = Color.objects.all()
     brand = Brand.objects.all()
     category = Catalog.objects.all()
@@ -39,13 +41,11 @@ def product_create(request):
 
 def product_list(request):
     products = Product.objects.all()
-
     min_price = request.GET.get('min_price')
     max_price = request.GET.get('max_price')
     brand = request.GET.get('brand')
     color = request.GET.get('color')
     sort = request.GET.get('sort')
-
     if min_price:
         products = products.filter(price__gte=min_price)
     if max_price:
@@ -62,12 +62,8 @@ def product_list(request):
         products = products.order_by('name')
     elif sort == 'name_desc':
         products = products.order_by('-name')
-
-
     brand = Brand.objects.all()
     color = Color.objects.all()
-
-
     ctx = {'products': products, 'brand': brand, 'color': color}
     return render(request, 'products/product-by-category.html', ctx)
 

@@ -3,59 +3,33 @@
 {% block title %} Astrum Market {% endblock %}
 
 {% block content %}
-        <main>
-            <div class="content-container">
-                <h1 class="page-title">Welcome to Astrum Market</h1>
+    <main>
+        <div class="content-container">
+            <h1 class="page-title">Welcome to Astrum Market</h1>
+            {% if products %}
                 <p class="intro-text">Discover our latest products and amazing deals!</p>
-
                 <div class="product-grid stagger-animation">
+                    {% for product in products %}
                     <a href="product-detail.html?id=1" class="product-card animate-scale-up">
                         <div class="product-image">
-                            <img src="/placeholder.svg?height=200&width=200" alt="Wireless Headphones">
+                            <img src="{{ product.image.url }}">
                         </div>
                         <div class="product-info">
-                            <h3 class="product-name">Wireless Headphones</h3>
-                            <p class="product-price">$129.99</p>
+                            <h3 class="product-name">{{ product.name }} {{ product.category }}</h3>
+                            <p class="product-price">${{ product.price }}</p>
                             <span class="view-details">View Details</span>
                         </div>
                     </a>
-                    <a href="product-detail.html?id=2" class="product-card animate-scale-up">
-                        <div class="product-image">
-                            <img src="/placeholder.svg?height=200&width=200" alt="Smart Watch">
-                        </div>
-                        <div class="product-info">
-                            <h3 class="product-name">Smart Watch</h3>
-                            <p class="product-price">$199.99</p>
-                            <span class="view-details">View Details</span>
-                        </div>
-                    </a>
-                    <a href="product-detail.html?id=3" class="product-card animate-scale-up">
-                        <div class="product-image">
-                            <img src="/placeholder.svg?height=200&width=200" alt="Smart Speaker">
-                        </div>
-                        <div class="product-info">
-                            <h3 class="product-name">Smart Speaker</h3>
-                            <p class="product-price">$79.99</p>
-                            <span class="view-details">View Details</span>
-                        </div>
-                    </a>
-                    <a href="product-detail.html?id=4" class="product-card animate-scale-up">
-                        <div class="product-image">
-                            <img src="/placeholder.svg?height=200&width=200" alt="Wireless Earbuds">
-                        </div>
-                        <div class="product-info">
-                            <h3 class="product-name">Wireless Earbuds</h3>
-                            <p class="product-price">$89.99</p>
-                            <span class="view-details">View Details</span>
-                        </div>
-                    </a>
+                    {% endfor %}
                 </div>
-
                 <div class="cta-section">
                     <h2>Explore More</h2>
-                    <a href="{% url  'products:list' %}" class="cta-button">View All Products</a>
+                    <a href="{% url 'products:list' %}" class="cta-button">View All Products</a>
                 </div>
-            </div>
-        </main>
+            {% else  %}
+                <h3 style="color: coral; text-align: center; ">No Products</h3>
+            {% endif %}
+        </div>
+    </main>
 {% endblock %}
 
